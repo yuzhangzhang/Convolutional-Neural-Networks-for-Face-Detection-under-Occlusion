@@ -4,10 +4,8 @@ from torch.utils.data import Dataset
 import argparse
 import torch.nn as nn
 import torchvision.transforms as transforms
-# from vggface.model import resnet18_cbam
-from vggface.model_CBAM import resnet18_cbam
-# from vggface.model_fa_attention import resnet18_cbam
 
+from facenet.model_CBAM import resnet18_cbam
 # from model import resnet18_cbam
 import cv2
 from PIL import Image
