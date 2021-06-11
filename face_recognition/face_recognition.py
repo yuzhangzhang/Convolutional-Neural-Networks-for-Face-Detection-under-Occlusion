@@ -12,7 +12,7 @@ import torchvision.transforms as transforms
 import torch
 import dlib
 import argparse
-from vggface.face_feature_extractor import FaceFeatureExtractor
+from facenet.face_feature_extractor import FaceFeatureExtractor
 from yolov3.yolo_detector import face_detect as yolodetector
 from yolov3.utils import rescale_boxes
 
@@ -260,75 +260,75 @@ if __name__=='__main__':
     opt = parser.parse_args()
     print(opt)
 
-    # while True:
-    #     print('Please choose the method: Identify, AddFace, DeletFace ?')
-    #     while True:
-    #         line = input()
-    #         if line == ' ':
-    #             break
-    #         method = line
-    #     if method =='DeletFace':
-    #         print('Please input the name of delet image')
-    #         line = input()
-    #         name = line
-    #         facerecognition = FaceRecognition()
-    #         face_embeddings, face_images = facerecognition.load_personnel_face_information(opt.personnel_face_embeddings_path)
-    #         personnel_face_images=[]
-    #         personnel_face_embeddings=[]
-    #         for path, embed in zip(face_images,face_embeddings):
-    #             image_name = path.split('\\')[-1]
-    #             image_name = image_name.split('.')[0]
-    #             if image_name!=name:
-    #                 print(image_name,name)
-    #                 personnel_face_images.append(path)
-    #                 personnel_face_embeddings.append(embed)
-    #             else:
-    #                 remove_path = opt.new_personnel_face_images_path+'\\'+image_name+'.jpg'
-    #                 print(remove_path)
-    #                 os.remove(remove_path)
-    #
-    #         print("updating npy file...")
-    #         combine = []
-    #         for embedding, images in zip(personnel_face_embeddings, personnel_face_images):
-    #             combine.append(
-    #                 [
-    #                     embedding,
-    #                     images
-    #                 ]
-    #             )
-    #         np.save(opt.personnel_face_embeddings_path, combine)
-    #         print("npy file Saved!\n")
-    #
-    #     else:
-    #         cap = cv2.VideoCapture(0)
-    #         print('cap.isOpened(){}'.format(cap.isOpened()))
-    #         while (cap.isOpened()):
-    #             # get a frame
-    #             ret, frame = cap.read()
-    #             cv2.imshow('real_person', frame)
-    #             # show a frame
-    #             if ret == True:
-    #                 if cv2.waitKey(100) & 0xFF == ord('s'):
-    #                     print('select one image successful!')
-    #                     image = frame
-    #                     output = ChooseMethod(method, image)
-    #                     break
-    #             else:
-    #                 cap.release()
-    #                 cv2.waitKey(0)
-    #
-    #         cap.release()
-    #         cv2.destroyAllWindows()
+    while True:
+        print('Please choose the method: Identify, AddFace, DeletFace ?')
+        while True:
+            line = input()
+            if line == ' ':
+                break
+            method = line
+        if method =='DeletFace':
+            print('Please input the name of delet image')
+            line = input()
+            name = line
+            facerecognition = FaceRecognition()
+            face_embeddings, face_images = facerecognition.load_personnel_face_information(opt.personnel_face_embeddings_path)
+            personnel_face_images=[]
+            personnel_face_embeddings=[]
+            for path, embed in zip(face_images,face_embeddings):
+                image_name = path.split('\\')[-1]
+                image_name = image_name.split('.')[0]
+                if image_name!=name:
+                    print(image_name,name)
+                    personnel_face_images.append(path)
+                    personnel_face_embeddings.append(embed)
+                else:
+                    remove_path = opt.new_personnel_face_images_path+'\\'+image_name+'.jpg'
+                    print(remove_path)
+                    os.remove(remove_path)
+    
+            print("updating npy file...")
+            combine = []
+            for embedding, images in zip(personnel_face_embeddings, personnel_face_images):
+                combine.append(
+                    [
+                        embedding,
+                        images
+                    ]
+                )
+            np.save(opt.personnel_face_embeddings_path, combine)
+            print("npy file Saved!\n")
+    
+        else:
+            cap = cv2.VideoCapture(0)
+            print('cap.isOpened(){}'.format(cap.isOpened()))
+            while (cap.isOpened()):
+                # get a frame
+                ret, frame = cap.read()
+                cv2.imshow('real_person', frame)
+                # show a frame
+                if ret == True:
+                    if cv2.waitKey(100) & 0xFF == ord('s'):
+                        print('select one image successful!')
+                        image = frame
+                        output = ChooseMethod(method, image)
+                        break
+                else:
+                    cap.release()
+                    cv2.waitKey(0)
+    
+            cap.release()
+            cv2.destroyAllWindows()
 
 
 
 
     # using one image to test
     # path = 'D:\Python\project3\master_project\\face_detection\\face-detect\\test_img\zhangyu2.jpg'
-    path = 'D:\Python\project3\master_project\MAFA\\test-images\images\\test_00000003.jpg'
-    image = cv2.imread(path)
-    # print(image)
-    output = ChooseMethod(opt.method, image)
+#     path = 'D:\Python\project3\master_project\MAFA\\test-images\images\\test_00000003.jpg'
+#     image = cv2.imread(path)
+#     # print(image)
+#     output = ChooseMethod(opt.method, image)
 
 
     # import os
